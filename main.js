@@ -29,7 +29,7 @@ const traffic = [
     new Car(road.getLaneCenter(0),-500,30,50, "DUMMY",2),
     new Car(road.getLaneCenter(1),-500,30,50, "DUMMY",2),
     new Car(road.getLaneCenter(1),-700,30,50, "DUMMY",2),
-    new Car(road.getLaneCenter(2),-700,30,50, "DUMMY",2)
+    new Car(road.getLaneCenter(2),-900,30,50, "DUMMY",2)
 ];
 animate();
 
@@ -50,7 +50,17 @@ function generateCars(N){
     return cars;
 }
 
+function generateTraffic(currY) {
+    traffic.push(new Car(road.getLaneCenter(Math.floor(Math.random() * 3)), currY - 600, 30, 50, "DUMMY", 2));
+}
+
 function animate(time){
+
+    if (Math.abs(bestCar.y) % 200 < 1) {
+        console.log("test");
+        generateTraffic(bestCar.y);
+    }
+
     for(let i=0; i<traffic.length; i++){
         traffic[i].update(road.borders,[]);
     }
