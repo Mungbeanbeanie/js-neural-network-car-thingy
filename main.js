@@ -31,6 +31,7 @@ const traffic = [
     new Car(road.getLaneCenter(1),-700,30,50, "DUMMY",2),
     new Car(road.getLaneCenter(2),-900,30,50, "DUMMY",2)
 ];
+idx = 0;
 animate();
 
 function save(){
@@ -51,14 +52,26 @@ function generateCars(N){
 }
 
 function generateTraffic(currY) {
-    traffic.push(new Car(road.getLaneCenter(Math.floor(Math.random() * 3)), currY - 600, 30, 50, "DUMMY", 2));
+    traffic.push(new Car(road.getLaneCenter(Math.floor(Math.random() * 3)), currY - 900, 30, 50, "DUMMY", 2));
 }
+
+function passedDummy(car) {
+    // Check if the car has passed a dummy car
+    if (car.y > bestCar.y) {
+        return true;
+    }
+    return false;
+}
+
 
 function animate(time){
 
-    if (Math.abs(bestCar.y) % 200 < 1) {
-        console.log("test");
-        generateTraffic(bestCar.y);
+    //generates new traffic based on when dummy cars are passed - idx updates to infinite spawns dont happen
+    for(let i=idx; i<traffic.length; i++){
+        if (passedDummy(traffic[i])) {
+            generateTraffic(bestCar.y);
+            idx+=1
+        }
     }
 
     for(let i=0; i<traffic.length; i++){
